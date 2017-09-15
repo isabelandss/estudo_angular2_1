@@ -1,25 +1,53 @@
 <h1 class="text-center">Cadastro de Fotos</h1> 
 <div class="container">
-    <form action="" (submit)="cadastrar($event)">
+    <h1 class="text-center">{{foto.titulo}}</h1>
+    <form [formGroup]="meuForm" action="" (submit)="cadastrar($event)">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="">Título</label>
-                <!-- <input (input)="foto.titulo = $event.target.value" [value]="foto.titulo" type="text" class="form-control" autocomplete="off"> -->
-                <input name="titulo" [(ngModel)]="foto.titulo" type="text" class="form-control" autocomplete="off">
+                <label>Título</label>
+                <input
+                    formControlName="titulo"
+                    name="titulo"
+                    [(ngModel)]="foto.titulo" 
+                    type="text" 
+                    class="form-control" 
+                    autocomplete="off">
+                <div *ngIf="meuForm.controls.titulo.invalid">
+                    <span *ngIf="meuForm.controls.titulo.errors.required" class="form-control alert-danger">
+                        Título obrigatório
+                    </span>
+                    <span *ngIf="meuForm.controls.titulo.errors.minlength" class="form-control alert-danger">
+                        Título deve ter no mínimo 4 carateres
+                    </span>
+                </div>
             </div>
             <div class="form-group">
-                <label for="">URL</label>
-                <!-- <input (input)="foto.url = $event.target.value" [value]="foto.url" type="text" class="form-control" autocomplete="off"> -->
-                <input name="url" [(ngModel)]="foto.url" type="text" class="form-control" autocomplete="off">
+                <label>URL</label>
+                <input
+                    formControlName="url" 
+                    name="url"
+                    [(ngModel)]="foto.url" 
+                    type="text" 
+                    class="form-control" 
+                    autocomplete="off">
+                <span *ngIf="meuForm.controls.url.invalid" class="form-control alert-danger">
+                    URL obrigatório
+                </span>
             </div>
             <div class="form-group">
-                <label for="">Descrição</label>
-                <!-- <textarea (input)="foto.descricao = $event.target.value" [value]="foto.descricao" class="form-control"></textarea> -->
-                <textarea name="descricao" [(ngModel)]="foto.descricao" class="form-control"></textarea>
+                <label>Descrição</label>
+                <textarea 
+                    name="descricao"
+                    formControlName="descricao"
+                    [(ngModel)]="foto.descricao" 
+                    class="form-control"></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="meuForm.invalid">Salvar</button>
             <a [routerLink]="['']" class="btn btn-default">Voltar</a>
+        </div>
+        <div class="col-md-6">
+            <foto [url]="foto.url" [titulo]="foto.titulo"></foto>
         </div>
     </form>
 </div> 
